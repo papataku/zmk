@@ -1,0 +1,192 @@
+/*
+ * Copyright (c) 2022 Pete Johanson
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+#define BT(n) BT_SEL n
+
+#define LOWER 1
+#define RAISE 2
+#define FUNC1 3
+#define FUNC2 4
+#define FUNC3 5
+#define FUNC4 6
+
+
+#define __________	&trans
+#define XXXXXXXXXX	&none
+#define LO_MUHE		&lt LOWER INT_MUHENKAN
+#define RA_HENK		&lt RAISE INT_HENKAN
+#define ESC_CTRL	&bhm LCTRL ESC
+#define ASCRN		&kp LA(PSCRN)
+#define TEAM_EDIT	&kp LS(LG(X))
+#define F4_MINU		&lt FUNC4 MINUS
+
+
+
+#define J_YEN		INT_YEN		// ¥
+
+#define J_EXCL		LS(N1)		// !
+#define J_AT		LBKT		// @
+#define J_HASH		LS(N3)		// #
+#define J_DLLR		LS(N4)		// $
+#define J_PRCN		LS(N5)		// %
+#define J_CARE		EQUAL		// ^
+#define J_AMPS		LS(N6)		// &
+#define J_ASTR		LS(SQT)		// *
+#define J_LPAR		LS(N8)		// (
+#define J_RPAR		LS(N9)		// )
+
+#define J_EQL		LS(MINUS)	// =
+#define J_LBRC		LS(RBKT)	// {
+#define J_RBRC		LS(NUHS)	// }
+#define J_SQT		LS(N7)		// '
+#define J_BSLH		INT1		// (backslash)
+#define J_PIPE		LS(INT3)	// |
+#define J_PLUS		LS(SEMI)	// +
+#define J_UNDE		LS(INT1)	// _
+#define J_LBKT		RBKT		// [
+#define J_RBKT		NUHS		// ]
+#define J_DQT		LS(N2)		// "
+
+#define J_COLN		SQT			// :
+
+
+&lt {  // layer-tap config
+    flavor = "balanced";
+    tapping-term-ms = <100>;
+    quick-tap-ms = <50>;
+};
+
+/ {
+    chosen {
+       zmk,matrix_transform =
+                       &mit_transform;
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+    };
+
+    behaviors {
+        bhm: balanced_homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;    // <---[[moderate duration]]
+            quick-tap-ms = <0>;
+            flavor = "balanced";
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+	/* : */
+    combos {
+        compatible = "zmk,combos";
+        combo_esc {
+            timeout-ms = <200>;
+            key-positions = <24 22>;
+            bindings = <&kp J_COLN>;
+        };
+    };
+
+	/* win */
+    behaviors {
+        td0: tap_dance_0 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TAP_DANCE_0";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LALT>, <&kp LGUI>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+		default_layer {
+			// --------------------------------------------------------------------------------------------------------------------------------------
+			// |  TAB     |  Q       |  W       |  E       |  R       |  T       |   Y      |  U       |  I       |  O       |   P      | BSPC      |
+			// |  ESC/CTRL|  A       |  S       |  D       |  F       |  G       |   H      |  J       |  K       |  L       |   ;      |  RET      |
+			// | SHIFT    |  Z       |  X       |  C       |  V       |  B       |   N      |  M       |  ,       |  .       |   /      |  -/F4     |
+			//                       | LALT/Win | FUNC2    | LOWR     |     SPACE           |  RAIS    | FUNC1    | FUNC2    | 
+			bindings = <
+				&kp TAB    &kp Q      &kp W      &kp E      &kp R      &kp T      &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
+				ESC_CTRL   &kp A      &kp S      &kp D      &kp F      &kp G      &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp RET
+				&kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp N      &kp M      &kp COMMA  &kp DOT    &kp SLASH  F4_MINU
+				                      &td0       &mo FUNC2  LO_MUHE           &kp SPACE      RA_HENK    &mo FUNC1  &mo FUNC3
+			>;
+		};
+
+		lower {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp N7     &kp N8     &kp N9     &trans     &trans
+				&trans     &trans     ASCRN      &trans     &kp LC(T)  &trans     &trans     &kp N4     &kp N5     &kp N6     &trans     &trans
+				&trans     &trans     &kp DEL    &kp BSPC   &kp RET    &trans     &trans     &kp N1     &kp N2     &kp N3     &trans     &trans
+				                      &trans     &trans     XXXXXXXXXX        &trans         &kp N0     &kp DOT    &kp COMMA
+			>;
+		};
+
+		raise {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&kp GRAVE  &kp J_EXCL &kp J_AT   &kp J_HASH &kp J_DLLR &kp J_PRCN &kp J_CARE &kp J_AMPS &kp J_ASTR &kp J_LPAR &kp J_RPAR &kp J_BSLH
+				&kp TILDE  &trans     &trans     &trans     &trans     &trans     &kp J_EQL  &kp MINUS  &kp J_LBRC &kp J_RBRC &kp J_SQT  &kp J_PIPE
+				&trans     &trans     &trans     &trans     &trans     &trans     &kp J_PLUS &kp J_UNDE &kp J_LBKT &kp J_RBKT &kp J_DQT  &trans
+				                      &trans     &trans     &trans            &trans         XXXXXXXXXX &kp K_APP  &kp LGUI
+			>;
+		};
+		
+		func1 {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp DEL
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp PG_UP  &kp PG_DN  &trans     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp HOME   &kp END    &trans     &trans
+				                      &trans     &trans     &trans            &trans         &trans     XXXXXXXXXX &trans
+			>;
+		};
+		
+		func2 {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&trans     &kp F1     &kp F2     &kp F3     &kp F4     &kp F5     &trans     &trans     &trans     &trans     &trans     &trans
+				&trans     &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &trans     &trans     &trans     &trans     &trans     &trans
+				&trans     &kp F11    &kp F12    &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+				                      &trans     XXXXXXXXXX &trans            &trans         &trans     &trans     &trans
+			>;
+		};
+		func3 {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+				                      &trans     &trans     &trans            &trans         &trans     &trans     XXXXXXXXXX
+			>;
+		};
+		func4 {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&bt BT_CLR &bt BT(0)  &bt BT(1)  &bt BT(2)  &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bootloader
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp UP     &trans     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp LEFT   &kp DOWN   &kp RIGHT  XXXXXXXXXX
+				                      &trans     &trans     &trans            &trans         &trans     &trans     &trans
+			>;
+		};
+    };
+};
+
