@@ -59,9 +59,8 @@
 
 
 &lt {  // layer-tap config
-    flavor = "balanced";
-    tapping-term-ms = <100>;
-    quick-tap-ms = <50>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <120>;
 };
 
 / {
@@ -79,13 +78,20 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
-            tapping-term-ms = <200>;    // <---[[moderate duration]]
+            tapping-term-ms = <120>;
             quick-tap-ms = <0>;
-            flavor = "balanced";
+            flavor = "hold-preferred";
             bindings = <&kp>, <&kp>;
         };
+        scoln: mod_morph_scoln {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOD_MORPH_SCOLN";
+            #binding-cells = <0>;
+            bindings = <&kp SEMI>, <&kp J_COLN>; // [sft ;] ─› [JP :]
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
     };
-
+#if 0
 	/* : */
     combos {
         compatible = "zmk,combos";
@@ -95,7 +101,7 @@
             bindings = <&kp J_COLN>;
         };
     };
-
+#endif
 	/* win */
     behaviors {
         td0: tap_dance_0 {
@@ -106,7 +112,125 @@
             bindings = <&kp LALT>, <&kp LGUI>;
         };
     };
-
+    
+    macros {
+        q_list_key: q_list_key {
+            label = "q_list_key";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp N1>,
+                <&macro_tap>,
+                <&kp Q>,
+                <&macro_tap>,
+                <&kp A>,
+                <&macro_tap>,
+                <&kp Z>;
+        };
+        w_list_key: w_list_key {
+            label = "w_list_key";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp N2>,
+                <&macro_tap>,
+                <&kp W>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_tap>,
+                <&kp X>;
+        };
+        e_list_key: e_list_key {
+            label = "e_list_key";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp N3>,
+                <&macro_tap>,
+                <&kp E>,
+                <&macro_tap>,
+                <&kp D>,
+                <&macro_tap>,
+                <&kp C>;
+        };
+        r_list_key: r_list_key {
+            label = "r_list_key";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp N4>,
+                <&macro_tap>,
+                <&kp R>,
+                <&macro_tap>,
+                <&kp F>,
+                <&macro_tap>,
+                <&kp V>;
+        };
+    };
+#if 1
+    combos {
+        compatible = "zmk,combos";
+        combo_q_key {
+            timeout-ms = <200>;
+            key-positions = <12 1>;
+            bindings = <&q_list_key>;
+        };
+        combo_w_key {
+            timeout-ms = <200>;
+            key-positions = <12 2>;
+            bindings = <&w_list_key>;
+        };
+        combo_e_key {
+            timeout-ms = <200>;
+            key-positions = <12 3>;
+            bindings = <&e_list_key>;
+        };
+        combo_r_key {
+            timeout-ms = <200>;
+            key-positions = <12 4>;
+            bindings = <&r_list_key>;
+        };
+    };
+#else
+    behaviors {
+        q_key: mod_morph_q_key {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOD_MORPH_Q_KEY";
+            #binding-cells = <0>;
+            bindings = <&kp Q>, <&q_list_key>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+        w_key: mod_morph_w_key {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOD_MORPH_W_KEY";
+            #binding-cells = <0>;
+            bindings = <&kp W>, <&w_list_key>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+        e_key: mod_morph_e_key {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOD_MORPH_E_KEY";
+            #binding-cells = <0>;
+            bindings = <&kp E>, <&e_list_key>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+        r_key: mod_morph_r_key {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MOD_MORPH_R_KEY";
+            #binding-cells = <0>;
+            bindings = <&kp R>, <&r_list_key>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+    };
+#endif
     keymap {
         compatible = "zmk,keymap";
 
@@ -115,10 +239,10 @@
 			// |  TAB     |  Q       |  W       |  E       |  R       |  T       |   Y      |  U       |  I       |  O       |   P      | BSPC      |
 			// |  ESC/CTRL|  A       |  S       |  D       |  F       |  G       |   H      |  J       |  K       |  L       |   ;      |  RET      |
 			// | SHIFT    |  Z       |  X       |  C       |  V       |  B       |   N      |  M       |  ,       |  .       |   /      |  -/F4     |
-			//                       | LALT/Win | FUNC2    | LOWR     |     SPACE           |  RAIS    | FUNC1    | FUNC2    | 
+			//                       | LALT/Win | FUNC2    | LOWR     |     SPACE           |  RAIS    | FUNC1    | FUNC3    | 
 			bindings = <
 				&kp TAB    &kp Q      &kp W      &kp E      &kp R      &kp T      &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
-				ESC_CTRL   &kp A      &kp S      &kp D      &kp F      &kp G      &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp RET
+				ESC_CTRL   &kp A      &kp S      &kp D      &kp F      &kp G      &kp H      &kp J      &kp K      &kp L      &scoln     &kp RET
 				&kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp N      &kp M      &kp COMMA  &kp DOT    &kp SLASH  F4_MINU
 				                      &td0       &mo FUNC2  LO_MUHE           &kp SPACE      RA_HENK    &mo FUNC1  &mo FUNC3
 			>;
@@ -172,8 +296,8 @@
 			// |          |          |          |          |          |          |          |          |          |          |          |          |
 			bindings = <
 				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
-				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
-				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp UP     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp LEFT   &kp DOWN   &kp RIGHT
 				                      &trans     &trans     &trans            &trans         &trans     &trans     XXXXXXXXXX
 			>;
 		};
