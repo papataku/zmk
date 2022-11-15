@@ -118,52 +118,44 @@
             label = "q_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            tap-ms = <20>;
+            wait-ms = <0>;
+            tap-ms = <0>;
             bindings =
-                <&macro_tap>,
                 <&kp N1>,
-                <&macro_tap>,
                 <&kp Q>,
-                <&macro_tap>,
                 <&kp A>,
-                <&macro_tap>,
                 <&kp Z>;
         };
         w_list_key: w_list_key {
             label = "w_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            tap-ms = <20>;
+            wait-ms = <0>;
+            tap-ms = <0>;
             bindings =
-                <&macro_tap>,
                 <&kp N2>,
-                <&macro_tap>,
                 <&kp W>,
-                <&macro_tap>,
                 <&kp S>,
-                <&macro_tap>,
                 <&kp X>;
         };
         e_list_key: e_list_key {
             label = "e_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            tap-ms = <20>;
+            wait-ms = <0>;
+            tap-ms = <0>;
             bindings =
-                <&macro_tap>,
                 <&kp N3>,
-                <&macro_tap>,
                 <&kp E>,
-                <&macro_tap>,
                 <&kp D>,
-                <&macro_tap>,
                 <&kp C>;
         };
         r_list_key: r_list_key {
             label = "r_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            tap-ms = <20>;
+            wait-ms = <0>;
+            tap-ms = <0>;
             bindings =
                 <&macro_tap>,
                 <&kp N4>,
@@ -175,7 +167,7 @@
                 <&kp V>;
         };
     };
-#if 1
+#if 0
     combos {
         compatible = "zmk,combos";
         combo_q_key {
@@ -241,7 +233,7 @@
 			// | SHIFT    |  Z       |  X       |  C       |  V       |  B       |   N      |  M       |  ,       |  .       |   /      |  -/F4     |
 			//                       | LALT/Win | FUNC2    | LOWR     |     SPACE           |  RAIS    | FUNC1    | FUNC3    | 
 			bindings = <
-				&kp TAB    &kp Q      &kp W      &kp E      &kp R      &kp T      &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
+				&kp TAB    &q_key     &w_key     &e_key     &r_key     &kp T      &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
 				ESC_CTRL   &kp A      &kp S      &kp D      &kp F      &kp G      &kp H      &kp J      &kp K      &kp L      &scoln     &kp RET
 				&kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp N      &kp M      &kp COMMA  &kp DOT    &kp SLASH  F4_MINU
 				                      &td0       &mo FUNC2  LO_MUHE           &kp SPACE      RA_HENK    &mo FUNC1  &mo FUNC3
