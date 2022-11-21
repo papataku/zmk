@@ -11,18 +11,28 @@
 
 #define BT(n) BT_SEL n
 
-#define LOWER 1
-#define RAISE 2
-#define FUNC1 3
-#define FUNC2 4
-#define FUNC3 5
-#define FUNC4 6
+#define JISKEY 0
+#define USKEY 1
+#define LOWER 2
+#define RAISE 3
+#define USRAI 4
+#define FUNC1 5
+#define FUNC2 6
+#define FUNC3 7
+#define FUNC4 8
+
 
 
 #define __________	&trans
 #define XXXXXXXXXX	&none
+
+/* for JIS */
 #define LO_MUHE		&lt LOWER INT_MUHENKAN
 #define RA_HENK		&lt RAISE INT_HENKAN
+/* for US */
+#define LO_US		&lt LOWER LANG2
+#define RA_US		&lt USRAI LANG1
+
 #define ESC_CTRL	&bhm LCTRL ESC
 #define ASCRN		&kp LA(PSCRN)
 #define TEAM_EDIT	&kp LS(LG(X))
@@ -239,6 +249,16 @@
 				                      &td0       &mo FUNC2  LO_MUHE           &kp SPACE      RA_HENK    &mo FUNC1  &mo FUNC3
 			>;
 		};
+		us_key {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&kp TAB    &q_key     &w_key     &e_key     &r_key     &kp T      &kp Y      &kp U      &kp I      &kp O      &kp P      &kp BSPC
+				ESC_CTRL   &kp A      &kp S      &kp D      &kp F      &kp G      &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp RET
+				&kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp N      &kp M      &kp COMMA  &kp DOT    &kp SLASH  F4_MINU
+				                      &td0       &mo FUNC2  LO_US             &kp SPACE      RA_US      &mo FUNC1  &mo FUNC3
+			>;
+		};
 
 		lower {
 			// -------------------------------------------------------------------------------------------------------------------------------------
@@ -261,7 +281,18 @@
 				                      &trans     &trans     &trans            &trans         XXXXXXXXXX &kp K_APP  &kp LGUI
 			>;
 		};
-		
+
+		us_rai {
+			// -------------------------------------------------------------------------------------------------------------------------------------
+			// |          |          |          |          |          |          |          |          |          |          |          |          |
+			bindings = <
+				&kp GRAVE  &kp EXCL   &kp AT     &kp HASH   &kp DLLR   &kp PRCNT  &kp CARET  &kp AMPS   &kp ASTRK  &kp LPAR   &kp RPAR   &kp BSLH
+				&kp TILDE  &trans     &trans     &trans     &trans     &trans     &kp EQL    &kp MINUS  &kp LBRC   &kp RBRC   &kp SQT    &kp PIPE
+				&trans     &trans     &trans     &trans     &trans     &trans     &kp PLUS   &kp UNDER  &kp LBKT   &kp RBKT   &kp DQT    &trans
+				                      &trans     &trans     &trans            &trans         XXXXXXXXXX &kp K_APP  &kp LGUI
+			>;
+		};
+
 		func1 {
 			// -------------------------------------------------------------------------------------------------------------------------------------
 			// |          |          |          |          |          |          |          |          |          |          |          |          |
@@ -297,9 +328,9 @@
 			// -------------------------------------------------------------------------------------------------------------------------------------
 			// |          |          |          |          |          |          |          |          |          |          |          |          |
 			bindings = <
-				&bt BT_CLR &bt BT(0)  &bt BT(1)  &bt BT(2)  &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bootloader
-				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp UP     &trans     &trans
-				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &kp LEFT   &kp DOWN   &kp RIGHT  XXXXXXXXXX
+				&bt BT_CLR &bt BT(0)  &bt BT(1)  &bt BT(2)  &bt BT(3)  &trans     &trans     &to USKEY  &trans     &trans     &trans     &bootloader
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &to JISKEY &trans     &trans     &trans     &trans
+				&trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans    XXXXXXXXXX
 				                      &trans     &trans     &trans            &trans         &trans     &trans     &trans
 			>;
 		};
