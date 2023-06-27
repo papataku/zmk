@@ -37,33 +37,55 @@
 #define TEAM_EDIT	&kp LS(LG(X))
 
 
+#define J_KEY_MACRO(name,key)        ZMK_MACRO(name,    \
+            bindings =  <&macro_press &kp LSHFT>,       \
+                        <&macro_tap &kp key>,           \
+                        <&macro_release &kp LSHFT>;     \
+        )
 
-#define J_YEN		INT_YEN		// ¥
+#define J_YEN		&kp INT_YEN		// ¥
 
-#define J_EXCL		LS(N1)		// !
-#define J_AT		LBKT		// @
-#define J_HASH		LS(N3)		// #
-#define J_DLLR		LS(N4)		// $
-#define J_PRCN		LS(N5)		// %
-#define J_CARE		EQUAL		// ^
-#define J_AMPS		LS(N6)		// &
-#define J_ASTR		LS(SQT)		// *
-#define J_LPAR		LS(N8)		// (
-#define J_RPAR		LS(N9)		// )
+//#define J_EXCL		&kp LS(N1)		// !
 
-#define J_EQL		LS(MINUS)	// =
-#define J_LBRC		LS(RBKT)	// {
-#define J_RBRC		LS(NUHS)	// }
-#define J_SQT		LS(N7)		// '
-#define J_BSLH		INT1		// (backslash)
-#define J_PIPE		LS(INT3)	// |
-#define J_PLUS		LS(SEMI)	// +
-#define J_UNDE		LS(INT1)	// _
-#define J_LBKT		RBKT		// [
-#define J_RBKT		NUHS		// ]
-#define J_DQT		LS(N2)		// "
+#define J_EXCL		&J_EXCL_		// !
+#define J_AT		&kp LBKT		// @
+//#define J_HASH		&kp LS(N3)		// #
+//#define J_DLLR		&kp LS(N4)		// $
+//#define J_PRCN		&kp LS(N5)		// %
+#define J_HASH		&J_HASH_		// #
+#define J_DLLR		&J_DLLR_		// $
+#define J_PRCN		&J_PRCN_		// %
+#define J_CARE		&kp EQUAL		// ^
+//#define J_AMPS		&kp LS(N6)		// &
+//#define J_ASTR		&kp LS(SQT)		// *
+//#define J_LPAR		&kp LS(N8)		// (
+//#define J_RPAR		&kp LS(N9)		// )
+#define J_AMPS		&J_AMPS_		// &
+#define J_ASTR		&J_ASTR_		// *
+#define J_LPAR		&J_LPAR_		// (
+#define J_RPAR		&J_RPAR_		// )
 
-#define J_COLN		SQT			// :
+//#define J_EQL		&kp LS(MINUS)	// =
+//#define J_LBRC		&kp LS(RBKT)	// {
+//#define J_RBRC		&kp LS(NUHS)	// }
+//#define J_SQT		&kp LS(N7)		// '
+#define J_EQL		&J_EQL_	// =
+#define J_LBRC		&J_LBRC_	// {
+#define J_RBRC		&J_RBRC_	// }
+#define J_SQT		&J_SQT_		// '
+#define J_BSLH		&kp INT1		// (backslash)
+//#define J_PIPE		&kp LS(INT3)	// |
+//#define J_PLUS		&kp LS(SEMI)	// +
+//#define J_UNDE		&kp LS(INT1)	// _
+#define J_PIPE		&J_PIPE_	// |
+#define J_PLUS		&J_PLUS_	// +
+#define J_UNDE		&J_UNDE_	// _
+#define J_LBKT		&kp RBKT		// [
+#define J_RBKT		&kp NUHS		// ]
+//#define J_DQT		&kp LS(N2)		// "
+#define J_DQT		&J_DQT_		// "
+
+#define J_COLN		&kp SQT			// :
 
 &lt {  // layer-tap config
     flavor = "hold-preferred";
@@ -78,18 +100,33 @@
             compatible = "zmk,behavior-mod-morph";
             label = "MOD_MORPH_SCOLN";
             #binding-cells = <0>;
-            bindings = <&kp SEMI>, <&kp J_COLN>; // [sft ;] ─› [JP :]
+            bindings = <&kp SEMI>, <J_COLN>; // [sft ;] ─› [JP :]
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
     };
     
     macros {
+        J_KEY_MACRO(J_EXCL_, N1)
+        J_KEY_MACRO(J_HASH_, N3)
+        J_KEY_MACRO(J_DLLR_, N4)
+        J_KEY_MACRO(J_PRCN_, N5)
+        J_KEY_MACRO(J_AMPS_, N6)
+        J_KEY_MACRO(J_ASTR_, SQT)
+        J_KEY_MACRO(J_LPAR_, N8)
+        J_KEY_MACRO(J_RPAR_, N9)
+        J_KEY_MACRO(J_EQL_, MINUS)
+        J_KEY_MACRO(J_LBRC_, RBKT)
+        J_KEY_MACRO(J_RBRC_, NUHS)
+        J_KEY_MACRO(J_SQT_, N7)
+        J_KEY_MACRO(J_PIPE_, INT3)
+        J_KEY_MACRO(J_PLUS_, SEMI)
+        J_KEY_MACRO(J_UNDE_, INT1)
+        J_KEY_MACRO(J_DQT_, N2)
+
         q_key: q_list_key {
             label = "q_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
             bindings =
                 <&kp N1>,
                 <&kp Q>,
@@ -100,8 +137,6 @@
             label = "w_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
             bindings =
                 <&kp N2>,
                 <&kp W>,
@@ -112,8 +147,6 @@
             label = "e_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
             bindings =
                 <&kp N3>,
                 <&kp E>,
@@ -124,8 +157,6 @@
             label = "r_list_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
             bindings =
                 <&macro_tap>,
                 <&kp N4>,
@@ -140,8 +171,6 @@
             label = "hex_key";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <0>;
-            tap-ms = <0>;
             bindings =
                 <&macro_tap>,
                 <&kp N0>,
@@ -201,10 +230,10 @@
 
         raise {
             bindings = <
-				&kp GRAVE  &kp J_EXCL &kp J_AT   &kp J_HASH &kp J_DLLR &kp J_PRCN &kp J_CARE &kp J_AMPS &kp J_ASTR &kp J_LPAR &kp J_RPAR &kp J_BSLH
-				&kp TILDE  &trans     &trans     &trans     &trans     &trans     &kp J_EQL  &kp MINUS  &kp J_LBRC &kp J_RBRC &kp J_SQT  &kp J_PIPE
-				&trans     &trans     &trans     &trans     &trans     &trans     &kp J_PLUS &kp J_UNDE &kp J_LBKT &kp J_RBKT &kp J_DQT  &trans
-                &trans     &trans     &trans     &trans     &trans     &trans     &trans     XXXXXXXXXX &trans     &trans     &trans     &trans
+				&kp GRAVE  J_EXCL     J_AT       J_HASH     J_DLLR     J_PRCN     J_CARE     J_AMPS     J_ASTR     J_LPAR     J_RPAR     J_BSLH
+				&kp TILDE  &trans     &trans     &trans     &trans     &trans     J_EQL      &kp MINUS  J_LBRC     J_RBRC     J_SQT      J_PIPE
+				&trans     &trans     &trans     &trans     &trans     &trans     J_PLUS     J_UNDE     J_LBKT     J_RBKT     J_DQT      &trans
+                &trans     &trans     &trans     &trans     &trans     &trans     &trans     XXXXXXXXXX &kp K_APP  &trans     &trans     &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_BRI_DEC C_BRI_INC>;
